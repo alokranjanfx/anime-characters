@@ -13,7 +13,7 @@ function App() {
 
   useEffect(() => {
     loadCharacters(searchText);
-  }, []);
+  }, [page]);
 
   const loadCharacters = debounce (async (search) => {
     setSearchText(search);
@@ -28,14 +28,8 @@ function App() {
   },1000);
 
   const onPageCLick = async (event) => {
-    if (event.isNext) {
-      setPage(page + 1);
-    } else if (event.isPrevious) {
-      if (page < 0) {
-        setPage(page - 1);
-      }
-    }
-    loadCharacters(searchText);
+    await setPage(event.nextSelectedPage);
+    // await loadCharacters(searchText);
     setPostPerPage(postPerPage);
   };
 
@@ -95,7 +89,7 @@ function App() {
         nextLabel={"next >>"}
         breakLabel={"..."}
         pageCount={pageCount}
-        onPageChange={onPageCLick}
+        // onPageChange={onPageCLick}
         onClick={onPageCLick}
         containerClassName={"pagination  justify-content-center"}
         pageClassName={"page-item"}
